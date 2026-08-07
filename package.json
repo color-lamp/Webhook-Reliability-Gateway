@@ -1,0 +1,26 @@
+{
+  "name": "webhook-reliability-gateway",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Buffer and verify third-party events (Stripe, GitHub, Shopify) with guaranteed at-least-once delivery and full event observability.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/color-lamp/Webhook-Reliability-Gateway.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/color-lamp/Webhook-Reliability-Gateway/issues"
+  },
+  "homepage": "https://github.com/color-lamp/Webhook-Reliability-Gateway#readme",
+  "dependencies": {
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "pg": "^8.22.0"
+  }
+}

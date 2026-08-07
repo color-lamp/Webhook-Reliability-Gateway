@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  # Database Service
+  db:
+    image: postgres:16-alpine
+    container_name: local-postgres
+    restart: always
+    environment:
+      POSTGRES_USER: myuser
+      POSTGRES_PASSWORD: mypassword
+      POSTGRES_DB: relay_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  # Webhook Relay Service
+  app:
+    build: .
+    container_name: relay-app
+    restart: always
+    ports:
+      - "3000:3000"
+    environment:
+      DATABASE_URL: postgres://myuser:mypassword@db:5432/relay_db
+    depends_on:
+      - db
+
+volumes:
+  postgres_data:
