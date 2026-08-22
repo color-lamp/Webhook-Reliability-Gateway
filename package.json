@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/color-lamp/Webhook-Reliability-Gateway#readme",
   "dependencies": {
+    "bullmq": "^6.1.0",
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
     "pg": "^8.22.0"
