@@ -29,13 +29,13 @@ router.post('/ingest/:endpoint_id', async (req, res) => {
       return res.status(404).json({ error: 'Endpoint not found' });
     }
     const target_url =epresult.row[0].target_url;
-    )
+  
 
     const insertres = await db.querry(
-      'INSERT INTO events [endpoint_id ,payload, status] 
+      `INSERT INTO events (endpoint_id ,payload, status) 
       VALUES ($1,$2,$3) 
-      RETURNING id as event_id
-      [event_id, payload, queued] '
+      RETURNING id as event_id `
+      [event_id, payload, queued] 
     );
     event_id = insertres.row[0].event_id;
 
@@ -54,7 +54,7 @@ router.post('/ingest/:endpoint_id', async (req, res) => {
 
     }
     catch (error) {
-      console.error('Ingestion error:, error);)
+      console.error('Ingestion error:', error);
         return res.status(500).json({error: 'Internal sercer error'});
 
     }
@@ -74,13 +74,13 @@ router.post('/events/:id/retry', async (req, res) => {
           retry_count = 0 
       WHERE id = $1 
       RETURNING *;
-    `;
+    `);
 
     const { rows } = await db.query(query, [event_id]);
 
     if ( rows.length === 0) {
       return res.status(404).json({ error: 'Event not found' });
-    )
+    }
     if (!event || event.row.length === 0) {
       return res.status(404).json({ error: 'Event not found' });
 
