@@ -12,10 +12,10 @@ if (!UUID_REGEX.test(endpoint_id)) {
 }
 
 
-const queryText = 
+const queryText = `
   INSERT INTO events (endpoint_id, event_type, idempotency_key, payload, headers, status)
   VALUES ($1, $2, $3, $4, $5, 'PENDING')
-  RETURNING id, status, created_at;
+  RETURNING id, status, created_at;`
 ;
  
 

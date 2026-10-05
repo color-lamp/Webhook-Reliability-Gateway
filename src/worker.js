@@ -1,4 +1,4 @@
-import { Worker} } from "bullmq";
+import { Worker}  from "bullmq";
 import { webhookQueue } from './lib/queue';
 import pool from './config/db';
 import crypto from 'crypto';
