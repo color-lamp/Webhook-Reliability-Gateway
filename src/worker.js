@@ -10,6 +10,6 @@ import { Job } from 'bullmq';
 const newWorker = new worker('webhook-deliver', 
     
     async(Job) => {
-        const {event_id, endpoint_id} = Job.data :
+        const {event_id, endpoint_id} = Job.data 
     }
 )
