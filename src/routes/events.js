@@ -104,6 +104,26 @@ router.post('/ingest/:endpoint_id', async (req, res) => {
 });
 
 
+const SHUTDOWN = async () => {
+  console.log('Closing HTTP server and database pool gracefully...');
+  server.close(async () => {
+    console.log('Express HTTP server closed.');
+  });
+
+  await db.end();
+  console.log('PostgreSQL connection pool closed.');
+
+  process.exit(0);
+};
+
+process.on('SIGINT', SHUTDOWN);
+process.on('SIGTERM', SHUTDOWN);
+
+app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
+});
+
+
 
 
 
