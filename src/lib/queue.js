@@ -20,6 +20,5 @@ const  webhookQueue = new Queue('webhook-delivery',{
     });
 
 
-
-
-module.exports = {connection, webhookQueue};
+export default webhookQueue ;
+export { connection };

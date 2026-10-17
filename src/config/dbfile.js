@@ -1,7 +1,7 @@
 import 'dotenv/config';
 import pg from 'pg';
 
-export const db = new pg.Pool({
+export const db1 = new pg.Pool({
   host: process.env.DB_HOST || '127.0.0.1',
   port: process.env.DB_PORT || 5432,
   user: process.env.DB_USER || 'postgres',
@@ -9,4 +9,4 @@ export const db = new pg.Pool({
   database: process.env.DB_NAME || 'your_db_name',
 });
 
-export default db;
+export default db1;

@@ -1,12 +1,12 @@
 import express from 'express';
-import db from '../db.js';
+import db1 from '../config/dbfile.js';
 import webhookQueue from '../lib/queue.js'; // Your BullMQ queue
 
-const router = express.Router();
+const routerWb = express.Router();
 
 const UUID_REGEX = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
-router.post('/ingest/:endpoint_id', async (req, res) => {
+routerWb.post('/ingest/:endpoint_id', async (req, res) => {
   try {
     const { endpoint_id } = req.params;
     const payload = req.body;
@@ -17,7 +17,7 @@ router.post('/ingest/:endpoint_id', async (req, res) => {
     }
 
     // 1. Check if endpoint exists and get target_url
-    const epResult = await db.query(
+    const epResult = await db1.query(
       'SELECT target_url FROM endpoints WHERE id = $1', 
       [endpoint_id]
     );
@@ -28,7 +28,7 @@ router.post('/ingest/:endpoint_id', async (req, res) => {
     const targetUrl = epResult.rows[0].target_url;
 
     // 2. Insert into PostgreSQL
-    const insertRes = await db.query(
+    const insertRes = await db1.query(
       `INSERT INTO events (endpoint_id, payload, headers, status) 
        VALUES ($1, $2, $3, 'PENDING') 
        RETURNING id, status, created_at;`,
@@ -61,4 +61,4 @@ router.post('/ingest/:endpoint_id', async (req, res) => {
   }
 });
 
-export default router;
+export default routerWb;

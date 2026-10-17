@@ -1,13 +1,13 @@
 import express from 'express';
-import db from './db.js'; // Adjust path depending on where db.js is
+import db1 from '../config/dbfile.js';// Adjust path depending on where db.js is
 
-const router = express.Router();
-router.use(express.json());
+const eventsRouter = express.Router();
+eventsRouter.use(express.json());
 // GET single event
-router.get('/:id', async (req, res) => {
+eventsRouter.get('/:id', async (req, res) => {
   try {
     const { id } = req.params;
-    const event = await db.query('SELECT * FROM events WHERE id = $1', [id]);
+    const event = await db1.query('SELECT * FROM events WHERE id = $1', [id]);
 
     if (event.rows.length === 0) {
       return res.status(404).json({ error: 'Event not found' });
@@ -21,11 +21,11 @@ router.get('/:id', async (req, res) => {
 });
 
 // POST manual retry
-router.post('/:id/retry', async (req, res) => {
+eventsRouter.post('/:id/retry', async (req, res) => {
   try {
     const { id } = req.params;
     
-    const result = await db.query(
+    const result = await db1.query(
       `UPDATE events 
        SET status = 'PENDING', retry_count = 0 
        WHERE id = $1 
@@ -47,4 +47,4 @@ router.post('/:id/retry', async (req, res) => {
   }
 });
 
-export default router;
+export default eventsRouter;

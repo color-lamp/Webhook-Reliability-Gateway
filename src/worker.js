@@ -1,5 +1,5 @@
 import { Worker } from 'bullmq';
-import db from './db.js';
+import db1 from './config/dbfile.js';
 import axios from 'axios';
 
 // Connect worker to Redis queue
@@ -15,7 +15,7 @@ const webhookWorker = new Worker('webhook-deliver', async (job) => {
     console.log(`Successfully delivered event ${event_id}`);
     
     // Optional: Update DB status to 'SUCCESS' here
-    await db.query("UPDATE events SET status = 'SUCCESS' WHERE id = $1", [event_id]);
+    await db1.query("UPDATE events SET status = 'SUCCESS' WHERE id = $1", [event_id]);
 
   } catch (error) {
     console.error(`Failed to deliver event ${event_id}:`, error.message);
@@ -31,7 +31,7 @@ const webhookWorker = new Worker('webhook-deliver', async (job) => {
 const SHUTDOWN = async () => {
   console.log('Closing worker gracefully...');
   await webhookWorker.close();
-  await db.end();
+  await db1.end();
   console.log('Worker and DB pool closed.');
   process.exit(0);
 };
