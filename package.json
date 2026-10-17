@@ -5,7 +5,7 @@
   "description": "Buffer and verify third-party events (Stripe, GitHub, Shopify) with guaranteed at-least-once delivery and full event observability.",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "node src/index.js"
   },
   "repository": {
     "type": "git",
