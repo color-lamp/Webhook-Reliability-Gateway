@@ -1,24 +1,20 @@
+// src/lib/queue.js
 import { Queue } from 'bullmq';
 
-const connection = {
-    host: process.env.REDIS_HOST || 'localhost',
-    port: parseInt(process.env.REDIS_PORT, 10) || 6379,
-    maxRetriesPerRequest: null,
-    
-};
+export const webhookQueue = new Queue('webhook-delivery', {
+  connection: {
+    host: process.env.REDIS_HOST || '127.0.0.1',
+    port: parseInt(process.env.REDIS_PORT || '6379', 10),
+  },
+  defaultJobOptions: {
+    attempts: 5,
+    backoff: {
+      type: 'exponential',
+      delay: 1000,
+    },
+    removeOnComplete: true,
+    removeOnFail: false,
+  },
+});
 
-const  webhookQueue = new Queue('webhook-delivery',{
-    connection,defaultJobOptions: {
-        attempts: 5,
-        backoff: {
-            type: 'exponential',
-            delay:1000,
-        },
-        removeOnComplete: true,
-        removeOnFail: false,
-    }
-    });
-
-
-export default webhookQueue ;
-export { connection };
+export default webhookQueue;
